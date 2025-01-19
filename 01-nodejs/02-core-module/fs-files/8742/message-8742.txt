@@ -1,0 +1,1 @@
+Hello NodeJS, this message contain in file message-8742.txt
