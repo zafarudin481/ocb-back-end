@@ -10,6 +10,26 @@ body {
     color: #333;
     line-height: 1.6;
     font-size: 16px;
-    margin: 1em;
-    padding: 13m;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
 }

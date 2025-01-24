@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMI Calculator</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <form action="">
-        <input type="number" name="height" id="height" placeholder="insert your height in meter">
-        <input type="number" name="weight" id="weight" placeholder="insert your weight in kg">
+    <form method="POST" action="/calculate">
+        <input type="number" name="height" id="height" placeholder="insert your height in meter" step="0.01">
+        <input type="number" name="weight" id="weight" placeholder="insert your weight in kg" step="0.01">
 
         <button type="submit">Calculate</button>
     </form>

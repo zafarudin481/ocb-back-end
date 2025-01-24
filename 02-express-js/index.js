@@ -7,6 +7,11 @@ const PORT = 8080;
 // initialize static folder contain file like css, js, images
 app.use(express.static("public"));
 
+// initialize body parser
+// to parse http body request as a javascript object
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 // handle server routing
 app.get("/", function (req, res) {
@@ -28,11 +33,46 @@ app.get("/bmi-form", function (req, res) {
 })
 
 app.get("/bmi-result", function (req, res) {
+    const bmi = req.query.bmi;
+    console.log(bmi);
+
     const bmiResultPath = path.join(__dirname, "pages", "bmi-result.html");
-    const bmiResult = fs.readFileSync(bmiResultPath, 'utf-8');
+    let bmiResult = fs.readFileSync(bmiResultPath, 'utf-8');
+
+    // replace the placeholder with actual value
+    if (bmi) {
+        bmiResult = bmiResult.replace("[(BMI-RESULT)]", bmi);
+    } else {
+        bmiResult = bmiResult.replace("[(BMI-RESULT)]", "No BMI value");
+    }
 
     res.setHeader("Content-Type", "text/html");
     res.send(bmiResult);
+})
+
+// POST request from BMI form
+app.post("/calculate", function (req, res) {
+    // view the data from the form inputs
+    const data = req.body;
+    console.log(data);
+
+    const weight = Number(data.weight);
+    const height = Number(data.height);
+
+    const bmi = (weight / (height * height)).toFixed(2);
+    console.log(bmi);
+
+    // concat the result in the redirect link
+    res.redirect("/bmi-result" + "?bmi=" + bmi);
+})
+
+// not found page
+app.use(function (req, res) {
+    const notFoundPath = path.join(__dirname, "pages", "404.html");
+    const notFound = fs.readFileSync(notFoundPath, 'utf-8');
+
+    res.setHeader("Content-Type", "text/html");
+    res.status(404).send(notFound);
 })
 
 // start server
