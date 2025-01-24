@@ -32,10 +32,26 @@ app.get("/bmi-form", function (req, res) {
     res.send(bmiForm);
 })
 
-app.get("/bmi-result", function (req, res) {
+// by altering the action in bmi-form.html to the /bmi-result from /calculate, the form data will be send directly to this server routing, however don't forget to change app.get into app.post to read the form data send
+// by using this method, which is preferrable, user will not able to alter the url in their browser which will means the after page reload, the result shows is only the value the users are alter. Previous method url in used localhost:PORT/bmi-result?bmi=BMI-VALUE 
+app.post("/bmi-result", function (req, res) {
+    /* since there is no server routing using query, so this line is not required anymore
     const bmi = req.query.bmi;
     console.log(bmi);
+    */
 
+    // handle business logic in server side, meaning that the bmi is calculate in the server instead of in client side, this lines of codes is taken and placed here from the server routing /calculate which we didn't need anymore.ing
+    const data = req.body;
+    console.log(data);
+
+    const weight = Number(data.weight);
+    const height = Number(data.height);
+
+    const bmi = (weight / (height * height)).toFixed(2);
+    console.log(bmi);
+
+
+    // the following code is to serve the client request
     const bmiResultPath = path.join(__dirname, "pages", "bmi-result.html");
     let bmiResult = fs.readFileSync(bmiResultPath, 'utf-8');
 
@@ -50,7 +66,8 @@ app.get("/bmi-result", function (req, res) {
     res.send(bmiResult);
 })
 
-// POST request from BMI form
+// instead of using this way to calculate the bmi through server routine, we used direct POST method into the /bmi-result
+/*// POST request from BMI form
 app.post("/calculate", function (req, res) {
     // view the data from the form inputs
     const data = req.body;
@@ -65,6 +82,7 @@ app.post("/calculate", function (req, res) {
     // concat the result in the redirect link
     res.redirect("/bmi-result" + "?bmi=" + bmi);
 })
+*/
 
 // not found page
 app.use(function (req, res) {
