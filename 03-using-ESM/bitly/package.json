@@ -1,0 +1,16 @@
+{
+  "name": "bitly",
+  "version": "1.0.0",
+  "description": "crete bitly using ESM",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "start": "node index.js"
+  },
+  "author": "zafarudin481",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
