@@ -13,10 +13,14 @@ function Redirect(req, res) {
     // read data from file
     const dataFilePath = path.join(process.cwd(), "model", "link.json");
     const fileStringData = fs.readFileSync(dataFilePath, { encoding: "utf-8" });
-    const fileData = JSON.parse(fileStringData);
+    let fileData = JSON.parse(fileStringData);
 
-    // find the long url for the short url using Array.find
-    const link = fileData.find((link) => link.shortUrl === shortUrl);
+    // find the index of long url for the short url using Array.findIndex
+    const linkIndex = fileData.findIndex((linkIndex) => linkIndex.shortUrl === shortUrl);
+    const link = fileData[linkIndex];
+    let visitorCount = fileData[linkIndex].count;
+
+    // const link = fileData.find((link) => link.shortUrl === shortUrl);
 
     // check whether the link is available or not, if not return 404 not found
     if (link == null || undefined) {
@@ -26,9 +30,16 @@ function Redirect(req, res) {
         res.setHeader("Content-Type", "text/html");
         res.status(404).send(notFoundHtml);
     } else {
-        const longUrl = link.url;
+        // add one to visitor count
+        visitorCount++;
+        fileData[linkIndex].count = visitorCount;
+
+        // write the data to file link.json
+        const stringData = JSON.stringify(fileData, null, 2);
+        fs.writeFileSync(dataFilePath, stringData);
 
         // redirect the user to the long url
+        const longUrl = link.url;
         res.status(301).redirect(longUrl);
     }
 }

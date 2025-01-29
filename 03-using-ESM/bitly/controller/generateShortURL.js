@@ -16,6 +16,7 @@ function GenerateShortURL(req, res) {
     // generate short url
     const randomString = crypto.randomBytes(3).toString('hex');
     const shortUrl = `${randomString}`;
+    const count = 0;
 
     // save generated url in json
     const linksFilePath = path.join(process.cwd(), "model", "link.json");
@@ -27,7 +28,8 @@ function GenerateShortURL(req, res) {
     // combine existing data with the new data
     const newData = {
         url: url,
-        shortUrl: shortUrl
+        shortUrl: shortUrl,
+        count: count
     };
     fileData.push(newData);
 
