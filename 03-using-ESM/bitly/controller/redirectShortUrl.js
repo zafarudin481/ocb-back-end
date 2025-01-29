@@ -17,10 +17,20 @@ function Redirect(req, res) {
 
     // find the long url for the short url using Array.find
     const link = fileData.find((link) => link.shortUrl === shortUrl);
-    const longUrl = link.url;
 
-    // redirect the user to the long url
-    res.status(301).redirect(longUrl);
+    // check whether the link is available or not, if not return 404 not found
+    if (link == null || undefined) {
+        const notFoundHtmlPath = path.join(process.cwd(), "pages", "404.html");
+        const notFoundHtml = fs.readFileSync(notFoundHtmlPath, 'utf-8');
+
+        res.setHeader("Content-Type", "text/html");
+        res.status(404).send(notFoundHtml);
+    } else {
+        const longUrl = link.url;
+
+        // redirect the user to the long url
+        res.status(301).redirect(longUrl);
+    }
 }
 
 export default Redirect;

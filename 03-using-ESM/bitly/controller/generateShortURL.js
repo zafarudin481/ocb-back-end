@@ -35,7 +35,16 @@ function GenerateShortURL(req, res) {
     const stringData = JSON.stringify(fileData, null, 2);
     fs.writeFileSync(linksFilePath, stringData);
 
-    res.send(shortUrl);
+    // read the html file to be send as response
+    const responseHtmlPath = path.join(process.cwd(), "pages", "shorten.html");
+    let responseHtml = fs.readFileSync(responseHtmlPath, 'utf-8');
+
+    // replace the placeholder in html file with actual URL
+    responseHtml = responseHtml.replace("[(LONG-URL)]", url);
+    responseHtml = responseHtml.replace("[(SHORTEN-URL)]", shortUrl);
+
+    res.setHeader("Content-Type", "text/html");
+    res.send(responseHtml);
 }
 
 export default GenerateShortURL;

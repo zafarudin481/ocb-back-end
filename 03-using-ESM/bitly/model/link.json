@@ -1,14 +1,54 @@
 [
-    {
-        "url": "https://google.com",
-        "shortUrl": "041d43"
-    },
-    {
-        "url": "https://youtube.com",
-        "shortUrl": "46133f"
-    },
-    {
-        "url": "https://github.com",
-        "shortUrl": "eeb14d"
-    }
+  {
+    "url": "https://google.com",
+    "shortUrl": "041d43"
+  },
+  {
+    "url": "https://youtube.com",
+    "shortUrl": "46133f"
+  },
+  {
+    "url": "https://github.com",
+    "shortUrl": "eeb14d"
+  },
+  {
+    "url": "https://www.facebook.com/",
+    "shortUrl": "f59692"
+  },
+  {
+    "url": "https://www.linkedin.com/",
+    "shortUrl": "4936be"
+  },
+  {
+    "url": "https://stackoverflow.com/",
+    "shortUrl": "2a7dc5"
+  },
+  {
+    "url": "https://kelasprogramming.com/",
+    "shortUrl": "ba2083"
+  },
+  {
+    "url": "https://www.w3schools.com/css/css3_flexbox_container.asp",
+    "shortUrl": "57f5a8"
+  },
+  {
+    "url": "https://stackoverflow.com/questions/29596551/how-can-i-get-the-attribute-value-of-an-element-in-javascript",
+    "shortUrl": "7ddff0"
+  },
+  {
+    "url": "https://stackoverflow.com/questions/11401897/get-the-current-domain-name-with-javascript-not-the-path-etc",
+    "shortUrl": "3f0096"
+  },
+  {
+    "url": "https://stackoverflow.com/questions/72950538/how-to-fix-an-error-when-working-with-an-array-and-the-find-method",
+    "shortUrl": "32ec38"
+  },
+  {
+    "url": "https://stackoverflow.com/questions/60127053/center-an-html-element",
+    "shortUrl": "932b5e"
+  },
+  {
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/center",
+    "shortUrl": "c4769f"
+  }
 ]

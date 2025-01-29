@@ -23,7 +23,7 @@ app.post("/shorten", GenerateShortURL);
 app.get("/dashboard", Dashboard);
 // initialize a param route by using a colon before the rout parameter
 app.get("/:shortUrl", Redirect);
-
+// there is no routing to 404 - file not found here, because the routing is handle under the redirectShortUrl.js controller
 
 // initialize nodejs server
 app.listen(PORT, () => {
