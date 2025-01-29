@@ -8,10 +8,27 @@ function Dashboard(req, res) {
     // 3) insert the list into the html file
     // 4) used the updated html file as a server response to client
 
-    // this is response operation
-    const dashboardPath = path.join(process.cwd(), "pages", "dashboard.html");
-    const dashboard = fs.readFileSync(dashboardPath, 'utf-8');
+    // read data from link.json file
+    const dataFilePath = path.join(process.cwd(), "model", "link.json");
+    const dataStringFile = fs.readFileSync(dataFilePath, 'utf-8');
+    const dataFile = JSON.parse(dataStringFile);
 
+    // remap all data into html string
+    const htmlTableList = dataFile.map((data) => (
+        `<tr>
+            <th scope="row">${data.shortUrl}</th>
+            <td class="long-url">${data.url}</td>
+            <td>${data.count}</td>
+        </tr>`
+    )).join("");
+
+    // read html file and replace with actual list
+    const dashboardPath = path.join(process.cwd(), "pages", "dashboard.html");
+    let dashboard = fs.readFileSync(dashboardPath, 'utf-8');
+    dashboard = dashboard.replace("[(LINK-LIST)]", htmlTableList);
+
+    // send server response using updated html
+    res.setHeader("Content-Type", "text/html");
     res.send(dashboard);
 }
 
