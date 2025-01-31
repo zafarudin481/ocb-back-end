@@ -353,6 +353,184 @@ WHERE continent NOT IN
         WHERE population <= 25000000));
 
 
+-- Using GROUP BY and HAVING
+-- For each continent show the number of countries
+SELECT continent, COUNT(name)
+FROM world
+GROUP BY continent;
+
+-- For each continent show the total population
+SELECT continent, SUM(population)
+FROM world
+GROUP BY continent;
+
+-- WHERE and GROUP BY.
+-- The WHERE filter takes place before the aggregating function. For each relevant continent show the number of countries that has a population of at least 200,000,000
+SELECT continent, COUNT(name)
+FROM world
+WHERE population>200000000
+GROUP BY continent;
+
+-- GROUP BY and HAVING.
+-- The HAVING clause is tested after the GROUP BY. You can test the aggregated values with a HAVING clause. Show the total population of those continents with a total population of at least half a billion.
+SELECT continent, SUM(population)
+FROM world
+GROUP BY continent
+HAVING SUM(population)>500000000;
+
+
+-- The JOIN operation
+-- show the player, teamid, stadium and mdate for every German goal
+SELECT player,teamid,stadium,mdate
+FROM game JOIN goal
+    ON (game.id=goal.matchid)
+WHERE goal.teamid = 'GER';
+
+-- Show the team1, team2 and player for every goal scored by a player called Mario
+SELECT team1, team2, player
+FROM game JOIN goal 
+    ON (game.id=goal.matchid)
+WHERE goal.player LIKE 'Mario%';
+
+-- Show player, teamid, coach, gtime for all goals scored in the first 10 minutes
+SELECT player, teamid, coach, gtime
+FROM goal JOIN eteam 
+    ON (goal.teamid=eteam.id)
+WHERE gtime<=10;
+
+-- List the dates of the matches and the name of the team in which 'Fernando Santos' was the team1 coach
+SELECT mdate, teamname
+FROM game JOIN eteam
+    ON (game.team1=eteam.id)
+WHERE coach = 'Fernando Santos';
+
+-- List the player for every goal scored in a game where the stadium was 'National Stadium, Warsaw'
+SELECT player
+FROM game JOIN goal
+    ON (game.id=goal.matchid)
+WHERE stadium = 'National Stadium, Warsaw';
+
+-- show the name of all players who scored a goal against Germany
+SELECT DISTINCT player
+FROM game JOIN goal
+    ON matchid = id 
+WHERE (team1='GER' OR team2='GER')
+    AND teamid!='GER';
+
+-- Show teamname and the total number of goals scored
+SELECT teamname, COUNT(gtime)
+FROM eteam JOIN goal 
+    ON id=teamid
+GROUP BY teamname;
+
+-- Show the stadium and the number of goals scored in each stadium
+SELECT stadium, COUNT(gtime)
+FROM game JOIN goal
+    ON (game.id=goal.matchid)
+GROUP BY stadium;
+
+-- For every match involving 'POL', show the matchid, date and the number of goals scored
+SELECT matchid, mdate, COUNT(gtime)
+FROM game JOIN goal 
+    ON matchid = id 
+WHERE (team1 = 'POL' OR team2 = 'POL')
+GROUP BY matchid;
+
+-- For every match where 'GER' scored, show matchid, match date and the number of goals scored by 'GER'
+SELECT matchid, mdate, COUNT(gtime)
+FROM game JOIN goal 
+    ON (id=matchid)
+WHERE teamid = 'GER'
+GROUP BY matchid;
+
+-- List every match with the goals scored by each team as shown. This will use "CASE WHEN" which has not been explained in any previous exercises
+-- Sort your result by mdate, matchid, team1 and team2
+SELECT
+    mdate,
+    team1,
+    SUM(CASE WHEN teamid=team1 THEN 1 ELSE 0 END) score1,
+    team2,
+    SUM(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) score2
+FROM game JOIN goal
+    ON matchid = id
+GROUP BY matchid
+ORDER BY mdate, matchid, team1, team2;
+
+
+-- More JOIN operations
+-- Obtain the cast list for the film 'Alien'
+SELECT name
+FROM actor JOIN casting
+    ON (id=actorid)
+WHERE movieid =
+    (SELECT id FROM movie WHERE title = 'Alien');
+
+-- List the films in which 'Harrison Ford' has appeared
+SELECT title
+FROM movie
+WHERE id IN
+    (SELECT movieid
+    FROM casting JOIN actor
+        ON (actorid=id)
+    WHERE name = 'Harrison Ford');
+
+-- List the films where 'Harrison Ford' has appeared - but not in the starring role. [Note: the ord field of casting gives the position of the actor. If ord=1 then this actor is in the starring role]
+SELECT title
+FROM movie
+WHERE id IN
+    (SELECT movieid
+    FROM casting JOIN actor
+        ON (actorid=id)
+    WHERE name = 'Harrison Ford'
+        AND ord <> 1);
+
+-- List the films together with the leading star for all 1962 films.
+SELECT title, name
+FROM movie
+    JOIN casting ON (movie.id=casting.movieid)
+    JOIN actor ON (actor.id=casting.actorid)
+WHERE movie.yr = 1962
+    AND casting.ord = 1;
+
+-- Which were the busiest years for 'Rock Hudson', show the year and the number of movies he made each year for any year in which he made more than 2 movies.
+SELECT yr,COUNT(title)
+FROM movie
+    JOIN casting ON movie.id=movieid
+    JOIN actor   ON actorid=actor.id
+WHERE name='Rock Hudson'
+GROUP BY yr
+HAVING COUNT(title) > 2;
+
+-- List the film title and the leading actor for all of the films 'Julie Andrews' played in.
+SELECT title, name
+FROM movie
+    JOIN casting ON movie.id=movieid
+    JOIN actor ON actor.id=actorid
+WHERE ord = 1
+    AND movieid IN
+        (SELECT movieid
+        FROM casting
+            JOIN actor ON actorid=id
+        WHERE name = 'Julie Andrews');
+    
+-- Obtain a list, in alphabetical order, of actors who've had at least 15 starring roles
+SELECT name
+FROM actor
+    JOIN casting ON (actor.id=actorid)
+WHERE ord = 1
+GROUP BY actorid
+HAVING COUNT(movieid) >= 15
+ORDER BY name;
+
+-- List the films released in the year 1978 ordered by the number of actors in the cast, then by title.
+SELECT title, COUNT(actorid)
+FROM casting
+    JOIN movie ON (movieid=movie.id)
+WHERE yr = 1978
+GROUP BY movieid
+ORDER BY COUNT(actorid) DESC, title;
+
+
 
 
 
