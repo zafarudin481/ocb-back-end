@@ -5,10 +5,10 @@ import createTodosTable from '../model/todo.js';
 const { Pool } = pg
 
 export const pool = new Pool({
-    host: '127.0.0.1',
-    user: 'postgres',
-    password: 'a1b2c3d4',
-    database: 'to-do-app-ocb',
+    host: process.env.PGHOST,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    database: process.env.PGDATABASE,
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
@@ -31,5 +31,6 @@ export async function databaseInit() {
     } catch (error) {
         // promise is rejected
         console.error("Database connection failed");
+        console.error(error);
     }
 };

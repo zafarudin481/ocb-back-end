@@ -2,6 +2,7 @@ import express from "express";
 import HealthController from "./controller/health.js";
 import NotFound from "./controller/not-found.js";
 import { databaseInit } from "./database/connection.js";
+import createUser from "./controller/user.controller/create.js";
 
 const app = express();
 const PORT = 8080;
@@ -16,8 +17,9 @@ databaseInit();
 
 // GET and POST health routes
 // all DML operations will be done in controller
-app.get('/', HealthController.get);
-app.post('/', HealthController.post);
+app.get("/", HealthController.get);
+app.post("/", HealthController.post);
+app.post("/users", createUser);
 
 // not found controller
 app.use(NotFound);
