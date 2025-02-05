@@ -1,4 +1,5 @@
 import { pool } from "../../database/connection.js";
+import bcrypt from "bcrypt";
 
 // $ is placeholder for dynamic value
 const query = `
@@ -8,6 +9,9 @@ VALUES ($1, $2, $3, $4);
 
 async function createUser(req, res) {
     try {
+        // bcrypt
+        const SALTROUNDS = 10;
+
         const username = req.body.username;
         const password = req.body.password;
         const email = req.body.email;
@@ -30,9 +34,14 @@ async function createUser(req, res) {
         };
 
         // check if the user already exist
-        // to be explore 
+        // to be explore
 
-        const dbRes = await pool.query(query, [username, password, email, isAdmin]);
+        // hash password
+        const salt = bcrypt.genSaltSync(SALTROUNDS);
+        const hashPassword = bcrypt.hashSync(password, salt);
+
+        // create user in database using query
+        const dbRes = await pool.query(query, [username, hashPassword, email, isAdmin]);
         console.log(dbRes);
         res.status(201).json({
             message: "User is created"
