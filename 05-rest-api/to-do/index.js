@@ -3,6 +3,9 @@ import HealthController from "./controller/health.js";
 import NotFound from "./controller/not-found.js";
 import { databaseInit } from "./database/connection.js";
 import createUser from "./controller/user.controller/create.js";
+import { readAllUsers, readUserById } from "./controller/user.controller/read.js";
+import updateUser from "./controller/user.controller/update.js";
+import deleteUser from "./controller/user.controller/delete.js";
 
 const app = express();
 const PORT = 8080;
@@ -20,6 +23,10 @@ databaseInit();
 app.get("/", HealthController.get);
 app.post("/", HealthController.post);
 app.post("/users", createUser);
+app.get("/users", readAllUsers);
+app.get("/users/:id", readUserById);
+app.put("/users/:id", updateUser);
+app.delete("/users/:id", deleteUser)
 
 // not found controller
 app.use(NotFound);
