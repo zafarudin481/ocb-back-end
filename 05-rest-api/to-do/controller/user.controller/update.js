@@ -2,8 +2,8 @@ import { pool } from "../../database/connection.js"
 
 // SQL query
 const queryUpdateUserById = `UPDATE users SET username = $1, email = $2 WHERE id = $3`;
-const queryCheckEmail = `SELECT * FROM users WHERE email = $1 AND id != $2;`;
-const queryCheckUsername = `SELECT * FROM users WHERE username = $1 AND id != $2;`;
+// const queryCheckEmail = `SELECT * FROM users WHERE email = $1 AND id != $2;`;
+// const queryCheckUsername = `SELECT * FROM users WHERE username = $1 AND id != $2;`;
 const queryCheckUser = `SELECT SUM(CASE WHEN email = $1 THEN 1 ELSE 0 END) email_exist, SUM(CASE WHEN username = $2 THEN 1 ELSE 0 END) username_exist
 FROM users WHERE id != $3;`;
 

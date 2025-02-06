@@ -6,6 +6,10 @@ import createUser from "./controller/user.controller/create.js";
 import { readAllUsers, readUserById } from "./controller/user.controller/read.js";
 import updateUser from "./controller/user.controller/update.js";
 import deleteUser from "./controller/user.controller/delete.js";
+import createToDo from "./controller/todo.controller/create.js";
+import { readAllToDos, readToDosByUser } from "./controller/todo.controller/read.js";
+import updateToDos from "./controller/todo.controller/update.js";
+import deleteToDo from "./controller/todo.controller/delete.js";
 
 const app = express();
 const PORT = 8080;
@@ -28,6 +32,13 @@ app.put("/users/:id", updateUser);
 app.delete("/users/:id", deleteUser);
 
 app.post("/register", createUser);
+
+// CRUD routes for todo
+app.post("/add-todo", createToDo);
+app.get("/todos", readAllToDos);
+app.post("/todos", readToDosByUser);
+app.put("/todos/:id", updateToDos);
+app.delete("/todos/:id", deleteToDo);
 
 // not found controller
 app.use(NotFound);

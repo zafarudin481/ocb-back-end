@@ -6,14 +6,14 @@ import { pool } from "../database/connection.js";
 const query = `
 CREATE TABLE IF NOT EXISTS to_dos (
     id SERIAL PRIMARY KEY,
-    text VARCHAR(255) NOT NULL,
+    item VARCHAR(255) NOT NULL,
     status BOOLEAN DEFAULT FALSE,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 `;
 
-export async function createTodosTable() {
+async function createTodosTable() {
     try {
         await pool.query(query);
         console.log("To-dos table is created");

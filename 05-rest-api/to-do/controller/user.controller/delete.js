@@ -1,7 +1,7 @@
 import { pool } from "../../database/connection.js";
 
-const queryDeleteUserById = `DELETE FROM users WHERE id = $1`;
-const queryCheckUser = `SELECT * FROM users WHERE id = $1`;
+const queryDeleteUserById = `DELETE FROM users WHERE id = $1;`;
+const queryCheckUser = `SELECT * FROM users WHERE id = $1;`;
 
 async function deleteUser(req, res) {
     try {
