@@ -8,7 +8,7 @@ import updateUser from "./controller/user.controller/update.js";
 import deleteUser from "./controller/user.controller/delete.js";
 import createToDo from "./controller/todo.controller/create.js";
 import readAllToDos from "./controller/todo.controller/read.js";
-import updateToDos from "./controller/todo.controller/update.js";
+import updateToDo from "./controller/todo.controller/update.js";
 import deleteToDo from "./controller/todo.controller/delete.js";
 import createToken from "./controller/auth.js";
 import isAuth from "./middleware/isauth.js";
@@ -38,11 +38,10 @@ app.post("/register", createUser);
 app.post("/login", createToken);
 
 // routes to handle todos and authenticated routes
-app.post("/todos", createToDo);
+app.post("/todos", isAuth, createToDo);
 app.get("/todos", isAuth, readAllToDos);
-// app.post("/todos", readToDosByUser);
-// app.put("/todos/:id", updateToDos);
-// app.delete("/todos/:id", deleteToDo);
+app.put("/todos/:id", isAuth, updateToDo);
+app.delete("/todos/:id", isAuth, deleteToDo);
 
 // not found controller
 app.use(NotFound);
