@@ -1,12 +1,13 @@
 import { pool } from "../../database/connection.js";
 
-const queryReadAllToDos = `SELECT * FROM to_dos`;
-const queryCheckUser = `SELECT * FROM users WHERE id = $1`;
-const queryReadToDosByUser = `SELECT * FROM to_dos WHERE user_id = $1`;
+const queryReadAllToDos = `SELECT * FROM to_dos WHERE user_id = $1`;
+/*const queryCheckUser = `SELECT * FROM users WHERE id = $1`;
+const queryReadToDosByUser = `SELECT * FROM to_dos WHERE user_id = $1`;*/
 
-export async function readAllToDos(req, res) {
+async function readAllToDos(req, res) {
     try {
-        const dbRes = await pool.query(queryReadAllToDos);
+        const userId = req.userId;
+        const dbRes = await pool.query(queryReadAllToDos, [userId]);
         const data = dbRes.rows;
         res.status(200).json({
             data: data
@@ -19,6 +20,7 @@ export async function readAllToDos(req, res) {
     };
 };
 
+/*
 export async function readToDosByUser(req, res) {
     try {
         const userId = req.body.user_id;
@@ -50,3 +52,6 @@ export async function readToDosByUser(req, res) {
         });
     };
 };
+*/
+
+export default readAllToDos;

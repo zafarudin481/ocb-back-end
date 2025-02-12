@@ -5,13 +5,14 @@ const queryCheckUser = `SELECT * FROM users WHERE id = $1;`;
 
 async function createToDo(req, res) {
     try {
+        // payload request body from client
         const item = req.body.item;
         const userId = req.body.user_id;
 
         // check request body
         if (!item || !userId) {
             return res.status(400).json({
-                message: "Todo item and user ID is required"
+                message: "Invalid request"
             });
         };
 
