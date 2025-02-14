@@ -1,4 +1,5 @@
 import pg from 'pg';
+import createFilesTable from '../model/file.js';
 
 const { Pool } = pg;
 
@@ -22,6 +23,9 @@ export async function databaseInit() {
         const name = dbName.rows[0].current_database;
         // promise is fulfilled
         console.log(`Connected to ${name} at ${time}`);
+
+        // create database table
+        await createFilesTable();
     } catch (error) {
         // promise is rejected
         console.error("Database connection failed");
