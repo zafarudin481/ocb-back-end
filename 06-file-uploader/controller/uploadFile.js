@@ -6,7 +6,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING *;
 `;
 
-export async function UploadFile(req, res) {
+async function UploadFile(req, res) {
     try {
         // req.file comes from multer middleware
         const file = req.file;
@@ -26,3 +26,5 @@ export async function UploadFile(req, res) {
         });
     };
 };
+
+export default UploadFile;
