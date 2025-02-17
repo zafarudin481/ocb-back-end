@@ -3,6 +3,7 @@ import isAuth from "../middlewares/isauth.js";
 import createNewSlot from "../controllers/slot/slot.create.js";
 import listAllSlots from "../controllers/slot/slot.list.js";
 import deleteSlot from "../controllers/slot/slot.delete.js";
+import listAllBookedSlots from "../controllers/slot/slot.bookedList.js";
 
 const privateRouter = Router();
 
@@ -18,6 +19,8 @@ privateRouter.get("/helloworld-json", (req, res) => {
 
 privateRouter.post("/slots", createNewSlot);
 privateRouter.get("/slots", listAllSlots);
-privateRouter.delete("/slots/:id", deleteSlot)
+privateRouter.delete("/slots/:id", deleteSlot);
+
+privateRouter.get("/bookings", listAllBookedSlots);
 
 export default privateRouter;
